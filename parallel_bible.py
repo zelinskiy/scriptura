@@ -41,11 +41,33 @@ class ParallelBible:
         z = 1
         res = ""
         toc = ""
+        nav = ""
         left_rtl = "dir=\"rtl\"" if self.left in self.rtl_bibles else ""
         right_rtl = "dir=\"rtl\"" if self.right in self.rtl_bibles else ""
         bible_heading = self.left + " || " + self.right
-        toc += """
-        <?xml version="1.0" encoding="UTF-8"?>
+        nav += """<?xml version="1.0" encoding="utf-8"?>
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+        "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="Content-Style-Type" content="text/css"/>
+        <meta name="generator" content="pandoc"/>
+        <title>{0}</title>
+        <style>
+        ol { list-style-type: none; margin: 0; padding: 0; }
+        .toc-chapter {
+        display: inline
+        }
+        </style>
+        </head>
+        <body>
+        <nav role="doc-toc" type="toc" id="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+        """
+        toc += """<?xml version="1.0" encoding="UTF-8"?>
         <!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN"
         "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
 
@@ -61,8 +83,7 @@ class ParallelBible:
         </docTitle>
         <navMap>
         """.format(2, bible_heading, self.uuid)
-        res += """
-        <?xml version="1.0" encoding="utf-8"?>
+        res += """<?xml version="1.0" encoding="utf-8"?>
         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
         "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
@@ -70,6 +91,9 @@ class ParallelBible:
         <head>
         <title>{0}</title>
         <style>
+        .toc_subheading {{
+        display: inline
+        }}
         table {{
         border-collapse: collapse;
         }}
@@ -102,7 +126,10 @@ class ParallelBible:
             <content src="Text/main.xhtml"/>
             </navPoint>
             """.format(str(z), book_heading)
-            z += 1
+            nav += """<li><span>{0}</span>
+            <ol>
+            """.format(book_heading)
+            #z += 1
             for (ch_i, ch_len) in enumerate(book1.chapter_lengths):
                 ch_i += 1
                 if chapters is not None and (i, ch_i) not in chapters:
@@ -129,14 +156,20 @@ class ParallelBible:
                     <td {4} valign=\"top\"><sup>{0} </sup>{2}</td>\n
                     </tr>\n\n""".format(str(ch_i) + ":" + str(verse_i), verse1, verse2, left_rtl, right_rtl)
                 res += "</table>\n"
-                toc += """<navPoint id="navPoint-{0}" playOrder="{0}">
+                toc += """<navPoint class="toc_subheading" id="navPoint-{0}" playOrder="{0}">
                 <navLabel>
-                <text>{1}</text>
+                <text>{1}&nbsp</text>
                 </navLabel>
                 <content src="Text/main.xhtml#toc_{0}"/>
                 </navPoint>
                 """.format(str(z), chapter_heading)
+                nav += """<li class="toc-chapter">
+                <a href="../Text/main.xhtml#toc_{0}">{1}</a>
+                </li>
+                """.format(str(z), str(ch_i))
                 z += 1
+            nav += """</ol></li>
+            """
             print()
         res += """
         </body>
@@ -145,6 +178,11 @@ class ParallelBible:
         toc += """
         </navMap>
         </ncx>
+        """
+        nav += """</ol>
+        </nav>
+        </body>
+        </html>
         """
         content = """<?xml version="1.0" encoding="utf-8"?>
         <package version="2.0" unique-identifier="BookId" xmlns="http://www.idpf.org/2007/opf">
@@ -156,6 +194,7 @@ class ParallelBible:
         <dc:date xmlns:opf="http://www.idpf.org/2007/opf" opf:event="modification">2019-07-30</dc:date>
         </metadata>
         <manifest>
+        <item id="nav" href="Text/nav.xhtml" media-type="application/xhtml+xml"/>
         <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
         <item id="main.xhtml" href="Text/main.xhtml" media-type="application/xhtml+xml"/>
         </manifest>
@@ -163,25 +202,30 @@ class ParallelBible:
         <itemref idref="main.xhtml"/>
         </spine>
         <guide>
+        <reference type="toc" title="{1}" href="Text/nav.xhtml"/>
         </guide>
         </package>
         """.format(self.uuid, bible_heading, trans1)
-        return (res, toc, content)
+        
+        return (res, toc, content, nav)
 
     def save_epub(self, name, path, res_path="res/", books=None, chapters=None, verses=None, trans1="en", trans2=None):
         os.makedirs(path, exist_ok=True)
         os.makedirs(path + "Text/", exist_ok=True)
-        text, toc, content = self.generate(trans1=trans1, trans2=trans2, books=books, chapters=chapters, verses=verses)
+        text, toc, content, nav = self.generate(trans1=trans1, trans2=trans2, books=books, chapters=chapters, verses=verses)
         with open(path + "Text/main.xhtml", "w+") as f:
             f.write(text)
         with open(path + "toc.ncx", "w+") as f:
             f.write(toc)
         with open(path + "content.opf", "w+") as f:
             f.write(content)
+        with open(path + "Text/nav.xhtml", "w+") as f:
+            f.write(nav)
         
         shutil.make_archive(res_path + name, 'zip', path)
         shutil.rmtree(path)
         os.rename(res_path + name + ".zip", res_path + name + ".epub")
+        os.system("ebook-convert {0} {1}".format(res_path + name + ".epub", res_path + name + ".mobi"))
         
         
         

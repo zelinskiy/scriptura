@@ -60,10 +60,16 @@ function go() {
     var req = new XMLHttpRequest();
     req.onreadystatechange = function () {
         if(req.readyState === XMLHttpRequest.DONE && req.status === 200) {
-	    var link = document.getElementById("download_link")
-            link.href="/res/" + JSON.parse(req.response).res + ".epub"
-	    link.innerHTML = "Download link"
-	    link.click()
+	    var name = JSON.parse(req.response).res
+	    var link = document.getElementById("download_link_epub")
+            link.href="/res/" + name + ".epub"
+	    link.innerHTML = "epub"
+	    //link1.click()
+
+	    var link2 = document.getElementById("download_link_mobi")
+            link2.href="/res/" + name + ".mobi"
+	    link2.innerHTML = "mobi"
+	    //link2.click()
         };
     };
     req.open("GET", "/generate?left=" + left + "&right=" + right);
