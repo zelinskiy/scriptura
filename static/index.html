@@ -1,0 +1,109 @@
+<html>
+  <head>
+    <title>Parallel bible generator</title>
+    <style>
+      h1 { text-align: center; }
+    </style>
+    <script src="/static/js/index.js"></script>
+  </head>
+  <body>
+    <h1>Scriptura</h1>
+    <center>
+      <select id="left" value="VulgClementine"></select>
+      <select id="right" value="RusSynodal"</option></select>
+      <br/><br/>
+      <span id="books_res"></span>
+      <select id="books">
+	<option id="book_1" value="1">Genesis</option>
+	<option id="book_2" value="2">Exodus</option>
+	<option id="book_3" value="3">Leviticus</option>
+	<option id="book_4" value="4">Numbers</option>
+	<option id="book_5" value="5">Deuteronomy</option>
+	<option id="book_6" value="6">Joshua</option>
+	<option id="book_7" value="7">Judges</option>
+	<option id="book_8" value="8">Ruth</option>
+	<option id="book_9" value="9">I Samuel</option>
+	<option id="book_10" value="10">II Samuel</option>
+	<option id="book_11" value="11">I Kings</option>
+	<option id="book_12" value="12">II Kings</option>
+	<option id="book_13" value="13">I Chronicles</option>
+	<option id="book_14" value="14">II Chronicles</option>
+	<option id="book_15" value="15">Ezra</option>
+	<option id="book_16" value="16">Nehemiah</option>
+	<option id="book_17" value="17">Tobit</option>
+	<option id="book_18" value="18">Judith</option>
+	<option id="book_19" value="19">Esther</option>
+	<option id="book_20" value="20">Job</option>
+	<option id="book_21" value="21">Psalms</option>
+	<option id="book_22" value="22">Proverbs</option>
+	<option id="book_23" value="23">Ecclesiastes</option>
+	<option id="book_24" value="24">Song of Solomon</option>
+	<option id="book_25" value="25">Wisdom</option>
+	<option id="book_26" value="26">Sirach</option>
+	<option id="book_27" value="27">Isaiah</option>
+	<option id="book_28" value="28">Jeremiah</option>
+	<option id="book_29" value="29">Lamentations</option>
+	<option id="book_30" value="30">Baruch</option>
+	<option id="book_31" value="31">Ezekiel</option>
+	<option id="book_32" value="32">Daniel</option>
+	<option id="book_33" value="33">Hosea</option>
+	<option id="book_34" value="34">Joel</option>
+	<option id="book_35" value="35">Amos</option>
+	<option id="book_36" value="36">Obadiah</option>
+	<option id="book_37" value="37">Jonah</option>
+	<option id="book_38" value="38">Micah</option>
+	<option id="book_39" value="39">Nahum</option>
+	<option id="book_40" value="40">Habakkuk</option>
+	<option id="book_41" value="41">Zephaniah</option>
+	<option id="book_42" value="42">Haggai</option>
+	<option id="book_43" value="43">Zechariah</option>
+	<option id="book_44" value="44">Malachi</option>
+	<option id="book_45" value="45">I Maccabees</option>
+	<option id="book_46" value="46">II Maccabees</option>
+	<option id="book_47" value="47">Matthew</option>
+	<option id="book_48" value="48">Mark</option>
+	<option id="book_49" value="49">Luke</option>
+	<option id="book_50" value="50">John</option>
+	<option id="book_51" value="51">Acts</option>
+	<option id="book_52" value="52">Romans</option>
+	<option id="book_53" value="53">I Corinthians</option>
+	<option id="book_54" value="54">II Corinthians</option>
+	<option id="book_55" value="55">Galatians</option>
+	<option id="book_56" value="56">Ephesians</option>
+	<option id="book_57" value="57">Philippians</option>
+	<option id="book_58" value="58">Colossians</option>
+	<option id="book_59" value="59">I Thessalonians</option>
+	<option id="book_60" value="60">II Thessalonians</option>
+	<option id="book_61" value="61">I Timothy</option>
+	<option id="book_62" value="62">II Timothy</option>
+	<option id="book_63" value="63">Titus</option>
+	<option id="book_64" value="64">Philemon</option>
+	<option id="book_65" value="65">Hebrews</option>
+	<option id="book_66" value="66">James</option>
+	<option id="book_67" value="67">I Peter</option>
+	<option id="book_68" value="68">II Peter</option>
+	<option id="book_69" value="69">I John</option>
+	<option id="book_70" value="70">II John</option>
+	<option id="book_71" value="71">III John</option>
+	<option id="book_72" value="72">Jude</option>
+	<option id="book_73" value="73">Revelation of John</option>
+	<option id="book_74" value="74">Prayer of Manasses</option>
+	<option id="book_75" value="75">I Esdras</option>
+	<option id="book_76" value="76">II Esdras</option>
+	<option id="book_77" value="77">Additional Psalm</option>
+	<option id="book_78" value="78">Laodiceans</option>
+      </select>
+      <button onclick="selectBook()">Add Book</button>
+
+      <br/><br/>
+      <span id="chapters_res"></span>
+      <input id="chapters" type="number" onsubmit="selectChapter()"></input>
+      <button onclick="selectChapter()">Add Chapter</button>
+
+      <br/><br/>
+      <button onclick="go()">Go</button>
+      <a href="#" id="download_link"></a>
+    </center>
+    <script>load()</script>
+  </body>
+  </html>

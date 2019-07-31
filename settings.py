@@ -1,0 +1,5 @@
+MODULES_PATH = "Modules/"
+TMP_PATH = "tmp/"
+RES_PATH = "res/"
+EPUB_DEF_PATH = "default_epub/"
+STATIC_PATH = "static/"

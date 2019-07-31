@@ -1,0 +1,21 @@
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <package version="2.0" unique-identifier="BookId" xmlns="http://www.idpf.org/2007/opf">
+        <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+        <dc:identifier id="BookId" opf:scheme="UUID">urn:uuid:082188a3-deb2-4eca-9639-087cf087fa45</dc:identifier>
+        <dc:language>en</dc:language>
+        <dc:title>Bible</dc:title>
+        <meta content="0.9.9" name="Sigil version" />
+        <dc:date xmlns:opf="http://www.idpf.org/2007/opf" opf:event="modification">2019-07-30</dc:date>
+        </metadata>
+        <manifest>
+        <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+        <item id="main.xhtml" href="Text/main.xhtml" media-type="application/xhtml+xml"/>
+        </manifest>
+        <spine toc="ncx">
+        <itemref idref="main.xhtml"/>
+        </spine>
+        <guide>
+        </guide>
+        </package>
+        
