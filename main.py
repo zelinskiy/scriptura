@@ -16,11 +16,4 @@ if __name__ == "__main__":
     random_str = str(random.randint(10**10, 10**11))
     path = TMP_PATH + random_str + os.sep
     name = m1 + "_" + m2 + "_" + random_str
-    pb.save_epub(name, path, res_path=RES_PATH)
-
-
-    
-
-
-
-    
+    pb.save_epub(name, path, res_path=RES_PATH, mk_mobi=False)
